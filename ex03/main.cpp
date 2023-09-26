@@ -6,20 +6,20 @@
 int main()
 {
 	DiamondTrap DT("Monster");
-	FragTrap 	FT("Frag");
-	ScavTrap	ST("Scav");
-
-	DT.getStatus();
-	DT.attack();
+	std::cout << "---" << std::endl;
+	DiamondTrap DT2(DT);
+	DiamondTrap DT3 = DT;
+	std::cout << "---" << std::endl;
 	DT.whoAmi();
-	while(1)
-	{
-		DT.attack();
-		FT.takeDamage(DT.getAttack());
-		ST.takeDamage(DT.getAttack());
-		if (FT.getHp() == 0 || ST.getHp() == 0)
-			break ;
-	}
-	FT.getStatus();
-	ST.getStatus();
+	DT2.whoAmi();
+	DT3.whoAmi();
+	std::cout << "---" << std::endl;
+	DT.getStatus();
+	DT2.getStatus();
+	DT3.getStatus();
+	std::cout << "---" << std::endl;
+	DT.attack();
+	DT2.attack();
+	DT3.attack();
+	std::cout << "---" << std::endl;
 }

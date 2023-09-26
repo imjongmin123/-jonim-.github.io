@@ -2,26 +2,27 @@
 
 FragTrap::FragTrap() : ClapTrap(100, 100, 30)
 {
-	std::cout << "FragTrap Default constructor is called" << std::endl;
+	std::cout << "[FragTrap] Default constructor is called" << std::endl;
 }
 
 FragTrap::~FragTrap()
 {
-	std::cout << "FragTrap Destructor is called" << std::endl;
+	std::cout << "[FragTrap] Destructor is called" << std::endl;
 }
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name, 100, 100, 30)
 {
-	std::cout << "FragTrap constructor is called" << std::endl;
+	std::cout << "[FragTrap] constructor is called" << std::endl;
 }
 
 FragTrap::FragTrap(const FragTrap& FT) : ClapTrap(FT)
 {
-	std::cout << "FragTrap Copy constructor is called" << std::endl;
+	std::cout << "[FragTrap] Copy constructor is called" << std::endl;
 }
 
 FragTrap& FragTrap::operator=(const FragTrap& FT)
 {
+	std::cout << "[FragTrap] operator is called" << std::endl;
 	Name = FT.Name;
 	HitPoint = FT.HitPoint;
 	EnergyPoint = FT.EnergyPoint;
@@ -31,5 +32,5 @@ FragTrap& FragTrap::operator=(const FragTrap& FT)
 
 void FragTrap::highFivesGuys()
 {
-	std::cout << "highFivesGuys!!!" << std::endl;
+	std::cout << "[FragTrap] highFivesGuys!!!" << std::endl;
 }

@@ -7,27 +7,37 @@ DiamondTrap::DiamondTrap()
 	HitPoint = FT.getHp();
 	EnergyPoint = ScavTrap::getEp();
 	AttackDamage = FT.getAttack();
-	std::cout << "DiamondTrap Default constructor is called" << std::endl;
+	std::cout << "[DiamondTrap] Default constructor is called" << std::endl;
 }
 
 DiamondTrap::~DiamondTrap()
 {
-	std::cout << "DiamondTrap destructor is called" << std::endl;
+	std::cout << "[DiamondTrap] destructor is called" << std::endl;
 }
 
-DiamondTrap::DiamondTrap(std:: string name)
+DiamondTrap::DiamondTrap(std:: string name) : ClapTrap(name)
 {
 	FragTrap FT;
 
-	Name = name +  "_clap_name";
+	Name = name;
 	HitPoint = FT.getHp();
 	EnergyPoint = ScavTrap::getEp();
 	AttackDamage = FT.getAttack();
-	std::cout << "DiamondTrap Copy constructor is called" << std::endl;
+	std::cout << "[DiamondTrap] Copy constructor is called" << std::endl;
+}
+
+DiamondTrap::DiamondTrap(const DiamondTrap& DT) : ClapTrap(DT.Name)
+{
+	std::cout << "[DiamondTrap] Copy constructor is called" << std::endl;
+	Name = DT.Name;
+	HitPoint = DT.HitPoint;
+	EnergyPoint = DT.EnergyPoint;
+	AttackDamage = DT.AttackDamage;
 }
 
 DiamondTrap& DiamondTrap::operator=(const DiamondTrap& DT)
 {
+	std::cout << "[DiamondTrap] operator is called" << std::endl;
 	Name = DT.Name;
 	HitPoint = DT.HitPoint;
 	EnergyPoint = DT.EnergyPoint;
@@ -42,6 +52,6 @@ void DiamondTrap::attack()
 
 void DiamondTrap::whoAmi()
 {
-	std::cout << "my name is " << Name << std::endl;
-	std::cout << "ClapTrap name is " << ClapTrap::Name << std::endl;
+	std::cout << "[DiamondTrap] my name is " << Name << std::endl;
+	std::cout << "[DiamondTrap] ClapTrap name is " << ClapTrap::Name << std::endl;
 }

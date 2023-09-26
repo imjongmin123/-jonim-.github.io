@@ -2,7 +2,7 @@
 
 ScavTrap::ScavTrap()
 {
-	std::cout << "ScavTrap Default constructor is called" << std::endl;
+	std::cout << "[ScavTrap] Default constructor is called" << std::endl;
 	HitPoint = 100;
 	EnergyPoint = 50;
 	AttackDamage = 20;
@@ -10,12 +10,12 @@ ScavTrap::ScavTrap()
 
 ScavTrap::~ScavTrap()
 {
-	std::cout << "ScavTrap Destructor is called" << std::endl;
+	std::cout << "[ScavTrap] Destructor is called" << std::endl;
 }
 
 ScavTrap::ScavTrap(std::string name)
 {
-	std::cout << "ScavTrap constructor is called" << std::endl;
+	std::cout << "[ScavTrap] constructor is called" << std::endl;
 	Name = name;
 	HitPoint = 100;
 	EnergyPoint = 50;
@@ -24,11 +24,12 @@ ScavTrap::ScavTrap(std::string name)
 
 ScavTrap::ScavTrap(const ScavTrap& ST) : ClapTrap(ST)
 {
-	std::cout << "ScavTrap Copy constructor is called" << std::endl;
+	std::cout << "[ScavTrap] Copy constructor is called" << std::endl;
 }
 
 ScavTrap& ScavTrap::operator=(const ScavTrap& ST)
 {
+	std::cout << "[ScavTrap] operator is called" << std::endl;
 	Name = ST.Name;
 	HitPoint = ST.HitPoint;
 	EnergyPoint = ST.EnergyPoint;
@@ -38,8 +39,13 @@ ScavTrap& ScavTrap::operator=(const ScavTrap& ST)
 
 void ScavTrap::guardGate()
 {
-	std::cout<< "[Scav]" << std::endl;
+	std::cout<< "[ScavTrap]";
 	getStatus();
+}
+
+void ScavTrap::attack(const std::string& target)
+{
+	std::cout << "[ScavTrap] " << Name << " attack " << target << std::endl;
 }
 
 unsigned int ScavTrap::getEp()
