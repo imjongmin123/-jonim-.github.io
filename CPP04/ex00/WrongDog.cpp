@@ -11,7 +11,7 @@ WrongDog::~WrongDog()
 	std::cout << "[WRONGDOG] destructor is called" << std::endl;
 }
 
-WrongDog::WrongDog(const WrongDog& Wdog)
+WrongDog::WrongDog(const WrongDog& Wdog) : WrongAnimal(Wdog)
 {
 	std::cout << "[WRONGDOG] copy constructor is called" << std::endl;
 	type = Wdog.type;

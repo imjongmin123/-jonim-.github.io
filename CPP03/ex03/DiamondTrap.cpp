@@ -15,7 +15,7 @@ DiamondTrap::~DiamondTrap()
 	std::cout << "[DiamondTrap] destructor is called" << std::endl;
 }
 
-DiamondTrap::DiamondTrap(std:: string name) : ClapTrap(name)
+DiamondTrap::DiamondTrap(std:: string name) : ClapTrap(name), FragTrap(), ScavTrap()
 {
 	FragTrap FT;
 
