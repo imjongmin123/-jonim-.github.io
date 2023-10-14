@@ -1,5 +1,13 @@
 #include "Bureaucrat.hpp"
 
+const char* Bureaucrat::GradeTooHighException::what() const throw() {
+    return "Grade is too high";
+}
+
+const char* Bureaucrat::GradeTooLowException::what() const throw() {
+    return "Grade is too low";
+}
+
 Bureaucrat::Bureaucrat()
 {
 	std::cout << "[Bureaucrat] default constructor is called" << std::endl;
@@ -19,18 +27,18 @@ Bureaucrat::Bureaucrat(const Bureaucrat& bureaucrat) : name(bureaucrat.name)
 Bureaucrat::Bureaucrat(std::string name_, unsigned int num) : name(name_)
 {
 	if (num < 1)
-		throw std::out_of_range("Bureaucrat::GradeTooHighException");
+		throw GradeTooHighException();
 	if (num > 150)
-		throw std::out_of_range("Bureaucrat::GradeTooLowException");
+		throw GradeTooLowException();
 	std::cout << "[Bureaucrat] constructor is called" << std::endl;
 	grade = num;
 }
 
-Bureaucrat* Bureaucrat::operator=(const Bureaucrat& bureaucrat)
+Bureaucrat& Bureaucrat::operator=(const Bureaucrat& bureaucrat)
 {
 	std::cout << "[Bureaucrat] operator is called" << std::endl;
 	grade = bureaucrat.grade;
-	return (this);
+	return (*this);
 }
 
 std::string Bureaucrat::getName() const
@@ -46,14 +54,14 @@ unsigned int Bureaucrat::getGrade() const
 void	Bureaucrat::increment()
 {
 	if (grade == 1)
-		throw std::out_of_range("Bureaucrat::GradeTooHighException");
+		throw GradeTooHighException();
 	grade--;
 }
 
 void	Bureaucrat::decrement()
 {
 	if (grade == 150)
-		throw std::out_of_range("Bureaucrat::GradeTooLowException");
+		throw GradeTooLowException();
 	grade++;
 }
 

@@ -1,5 +1,13 @@
 #include "AForm.hpp"
 
+const char* AForm::GradeTooHighException::what() const throw() {
+    return "Form grade is too high";
+}
+
+const char* AForm::GradeTooLowException::what() const throw() {
+    return "Form grade is too low";
+}
+
 AForm::AForm() : grade_sign(20), grade_execute(20)
 {
 	std::cout << "[AForm] default constructor is called" << std::endl;
@@ -11,22 +19,22 @@ AForm::~AForm()
 	std::cout << "[AForm] destructor is called" << std::endl;
 }
 
-AForm::AForm(std::string name_, unsigned int sign, unsigned int exe) : name(name_), grade_sign(sign), grade_execute(exe)
+AForm::AForm(std::string name_, int sign, int exe) : name(name_), grade_sign(sign), grade_execute(exe)
 {
 	std::cout << "[AForm] constructor is called" << std::endl;
 	if (sign < 1 || exe < 1)
-		throw std::out_of_range("AForm::GradeTooHighException");
+		throw GradeTooHighException();
 	if (sign > 150 || exe > 150)
-		throw std::out_of_range("AForm::GradeTooLowException");
+		throw GradeTooLowException();
 }
 
-AForm::AForm(unsigned int sign, unsigned int exe) : grade_sign(sign), grade_execute(exe)
+AForm::AForm(int sign, int exe) : grade_sign(sign), grade_execute(exe)
 {
 	std::cout << "[AForm] constructor is called" << std::endl;
 	if (sign < 1 || exe < 1)
-		throw std::out_of_range("AForm::GradeTooHighException");
+		throw GradeTooHighException();
 	if (sign > 150 || exe > 150)
-		throw std::out_of_range("AForm::GradeTooLowException");
+		throw GradeTooLowException();
 }
 
 AForm::AForm(const AForm& AForm) : name(AForm.name), grade_sign(AForm.grade_sign), grade_execute(AForm.grade_execute)
@@ -35,19 +43,22 @@ AForm::AForm(const AForm& AForm) : name(AForm.name), grade_sign(AForm.grade_sign
 	sign = AForm.sign;
 }
 
-AForm* AForm::operator=(const AForm& AForm)
+AForm& AForm::operator=(const AForm& AForm)
 {
 	std::cout << "[AForm] operator is called" << std::endl;
 	this->sign = AForm.sign;
-	return (this);
+	return (*this);
 }
 
 void AForm::beSigned(Bureaucrat bureaucrat)
 {
-	if (bureaucrat.getGrade() <= grade_sign && bureaucrat.getGrade() <= grade_execute)
+	if (bureaucrat.getGrade() <= grade_sign)
 		sign = true;
 	else
-		throw std::out_of_range("AForm::GradeTooLowException");
+	{
+		sign = false;
+		throw GradeTooLowException();
+	}
 }
 
 
@@ -61,12 +72,12 @@ bool AForm::getIsSign() const
 	return (sign);
 }
 
-unsigned int AForm::getGradeSign() const
+int AForm::getGradeSign() const
 {
 	return (grade_sign);
 }
 
-unsigned int AForm::getGradeExe() const
+int AForm::getGradeExe() const
 {
 	return (grade_execute);
 }

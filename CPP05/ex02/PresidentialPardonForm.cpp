@@ -1,5 +1,4 @@
 #include "PresidentialPardonForm.hpp"
-#include <fstream>
 
 PresidentialPardonForm::PresidentialPardonForm() : AForm(145, 137)
 {
@@ -9,6 +8,11 @@ PresidentialPardonForm::PresidentialPardonForm() : AForm(145, 137)
 PresidentialPardonForm::~PresidentialPardonForm()
 {
 	std::cout << "[PresidentialPardonForm] destructor is called" << std::endl;
+}
+
+PresidentialPardonForm::PresidentialPardonForm(std::string target_) : AForm(145, 137), target(target_)
+{
+	std::cout << "[PresidentialPardonForm] constructor is called" << std::endl;
 }
 
 PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& P_P_Form) : AForm(P_P_Form.getName(), P_P_Form.getGradeSign(), P_P_Form.getGradeExe())
@@ -25,26 +29,13 @@ PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPard
 }
 
 void	PresidentialPardonForm::execute(Bureaucrat const & executor) const
-{
-	if (executor.getGrade() <= getGradeSign() && executor.getGrade() <= getGradeExe())
+{	
+	if (getIsSign() == false)
+		throw GradeTooHighException();
+	if(executor.getGrade() <= getGradeExe())
 	{
-		std::ofstream treeFile;
-
-		treeFile.open(executor.getName() + "_shrubbery");
-		if (treeFile.is_open())
-		{
-			treeFile << "   *\n";
-			treeFile << "  ***\n";
-            treeFile << " *****\n";
-        	treeFile << "*******\n";
-            treeFile << "  ***\n";
-			treeFile.close();
-		}
-		else
-		{
-			std::cerr << "con not open file" << std::endl;
-		}
+		std::cout << target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
 	}
 	else
-		throw std::out_of_range("Form is not signed.");
+		throw GradeTooHighException();
 }

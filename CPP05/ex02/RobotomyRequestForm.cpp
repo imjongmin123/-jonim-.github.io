@@ -10,6 +10,11 @@ RobotomyRequestForm::~RobotomyRequestForm()
 	std::cout << "[RobotomyRequestForm] destructor is called" << std::endl;
 }
 
+RobotomyRequestForm::RobotomyRequestForm(std::string target_) : AForm(72, 45), target(target_)
+{
+	std::cout << "[RobotomyRequestForm] constructor is called" << std::endl;
+}
+
 RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& R_R_Form) : AForm(R_R_Form.getName(), R_R_Form.getGradeSign(), R_R_Form.getGradeExe())
 {
 	std::cout << "[RobotomyRequestForm] copy constructor is called" << std::endl;
@@ -25,18 +30,20 @@ RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& R
 
 void	RobotomyRequestForm::execute(Bureaucrat const & executor) const
 {
-	if(executor.getGrade() <= getGradeSign() && executor.getGrade() <= getGradeExe())
+	if (getIsSign() == false)
+		throw GradeTooHighException();
+	if(executor.getGrade() <= getGradeExe())
 	{
 		bool ran = rand() % 2;
 		if (ran == 1)
 		{
-			std::cout << "ddddddddddd...... " << executor.getName() << " is successfully robotized" << std::endl;
+			std::cout << "ddddddddddd...... " << target << " is successfully robotized" << std::endl;
 		}
 		else
 		{
-			std::cout << executor.getName() << " the robotomy failed" << std::endl;
+			std::cout << target << " the robotomy failed" << std::endl;
 		}
 	}
 	else
-		throw std::out_of_range("Form is not signed.");
+		throw GradeTooHighException();
 }

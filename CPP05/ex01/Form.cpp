@@ -1,5 +1,13 @@
 #include "Form.hpp"
 
+const char* Form::GradeTooHighException::what() const throw() {
+    return "Form grade is too high";
+}
+
+const char* Form::GradeTooLowException::what() const throw() {
+    return "Form grade is too low";
+}
+
 Form::Form() : grade_sign(20), grade_execute(20)
 {
 	std::cout << "[Form] default constructor is called" << std::endl;
@@ -11,13 +19,14 @@ Form::~Form()
 	std::cout << "[Form] destructor is called" << std::endl;
 }
 
-Form::Form(std::string name_, unsigned int sign, unsigned int exe) : name(name_), grade_sign(sign), grade_execute(exe)
+Form::Form(std::string name_, int sign, int exe) : name(name_), grade_sign(sign), grade_execute(exe)
 {
 	std::cout << "[Form] constructor is called" << std::endl;
 	if (sign < 1 || exe < 1)
-		throw std::out_of_range("Form::GradeTooHighException");
+		throw GradeTooHighException();
 	if (sign > 150 || exe > 150)
-		throw std::out_of_range("Form::GradeTooLowException");
+		throw GradeTooLowException();
+		
 }
 
 Form::Form(const Form& form) : name(form.name), grade_sign(form.grade_sign), grade_execute(form.grade_execute)
@@ -26,19 +35,22 @@ Form::Form(const Form& form) : name(form.name), grade_sign(form.grade_sign), gra
 	sign = form.sign;
 }
 
-Form* Form::operator=(const Form& form)
+Form& Form::operator=(const Form& form)
 {
 	std::cout << "[Form] operator is called" << std::endl;
 	this->sign = form.sign;
-	return (this);
+	return (*this);
 }
 
 void Form::beSigned(Bureaucrat bureaucrat)
 {
-	if (bureaucrat.getGrade() <= grade_sign && bureaucrat.getGrade() <= grade_execute)
+	if (bureaucrat.getGrade() <= grade_sign)
 		sign = true;
 	else
-		throw std::out_of_range("Form::GradeTooLowException");
+	{
+		sign = false;
+		throw GradeTooHighException();
+	}
 }
 
 
@@ -52,12 +64,12 @@ bool Form::getIsSign() const
 	return (sign);
 }
 
-unsigned int Form::getGradeSign() const
+int Form::getGradeSign() const
 {
 	return (grade_sign);
 }
 
-unsigned int Form::getGradeExe() const
+int Form::getGradeExe() const
 {
 	return (grade_execute);
 }

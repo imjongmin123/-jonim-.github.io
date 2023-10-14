@@ -56,7 +56,7 @@ AForm* Intern::makeForm(std::string name_form, std::string target_form)
 
 	default:
 		std::cout << "invalid name_form!" << std::endl;
-		f = NULL;
+		throw std::invalid_argument("Invailid name_form");
 		break;
 	}
 	return (f);
