@@ -52,7 +52,7 @@ void	PmergeMe::printDecTime()
 	<< time << " us" << std::endl;
 }
 
-void				PmergeMe::printResult()
+void				PmergeMe::printVec()
 {
 	unsigned int size = VecArray.size();
 	for (unsigned int i = 0; i < size; i++)
@@ -62,6 +62,15 @@ void				PmergeMe::printResult()
 	std::cout << "\n";
 }
 
+void				PmergeMe::printDec()
+{
+	unsigned int size = DecArray.size();
+	for (unsigned int i = 0; i < size; i++)
+	{
+		std::cout << DecArray[i] << " ";
+	}
+	std::cout << "\n";
+}
 
 // 인자 확인 및 저장
 void	PmergeMe::CheckArg(int ac, char **av)
@@ -89,6 +98,19 @@ void	PmergeMe::CheckArg(int ac, char **av)
 		DecArray.push_back(value);
 	}
 }
+
+bool				PmergeMe::Checksort()
+{
+	unsigned int size = VecArray.size();
+	for (unsigned int i = 0; i + 1 < size; i++)
+	{
+		if (VecArray[i] > VecArray[i + 1] || DecArray[i] > DecArray[i + 1])
+			return (NOT_SORT);
+	}
+	return (SORT);
+}
+
+
 
 int					PmergeMe::Pow(int num)
 {
@@ -174,14 +196,6 @@ std::deque<int>	PmergeMe::JacobsthalDec(int num)
 	return (JacobIndex);
 }
 
-
-int		PmergeMe::getrange(int num)
-{
-	return pow(2, static_cast<int>(log2(num) + 1)) - 1;
-}
-
-
-
 // vecto로 정렬
 int	PmergeMe::binarysearch(int right, int value, int n_size)
 {
@@ -191,11 +205,6 @@ int	PmergeMe::binarysearch(int right, int value, int n_size)
 	while (left <= right)
 	{
 		int mid = (left + (right - left) / 2) * n_size;
-		if (n_size == 1 && value == 63)
-		{
-			std::cout << "\n---------------------\n";
-			std::cout << "left == " << left << " right == " << right << " mid == " << mid << std::endl;
-		}
 		if (VecArray[mid] < value)
 			left = mid / n_size + 1;
 		else
@@ -236,58 +245,22 @@ void	PmergeMe::InsertSort(unsigned int n_size)
 		VecArray.erase(a_firstitr, a_lastitr);
 	}
 	
-	std::cout << "\nn_size == " << n_size << std::endl;
-	std::cout << "a == ";
-	for (unsigned int k = 0; k < VecArray.size(); k++)
-	{
-		std::cout << VecArray[k] << " ";
-	}
-	std::cout << "\n\n";
-
-	std::cout << "b == ";
-	for (unsigned int k = 0; k < pend.size(); k++)
-	{
-		std::cout << pend[k] << " ";
-	}
-	std::cout << "\n\n";
 	std::vector<int> jacopIndex = Jacobsthal(b_cnt);
 
 	for (unsigned int n = 0; n < b_cnt; n++)
 	{
 		int index = (jacopIndex[n] - 1) * n_size;
-		if (n == 9)
-		{
-			std::cout << "\n --------\n";
-			std::cout << index << std::endl;
-		}
 		std::vector<int>::iterator maxindex = pend.begin();
 		std::advance(maxindex, index);
-		int find = binarysearch(getrange(jacopIndex[n]), *maxindex, n_size);
+		int find = binarysearch(n + jacopIndex[n], *maxindex, n_size);
 		std::vector<int>::iterator inputItr = VecArray.begin();
 		std::advance(inputItr, find);
 		std::vector<int>::iterator b_startItr = pend.begin();
 		std::advance(b_startItr, index);
 		std::vector<int>::iterator b_endItr = b_startItr;
 		std::advance(b_endItr, n_size);
-		if (n_size == 1 && index == 6)
-		{
-			std::cout << "\n -------check--------\n";
-			std::cout << "n == " << n << std::endl;
-			std::cout << find << std::endl;
-			for (unsigned int m = 0; m < VecArray.size(); m++)
-			{
-				std::cout << VecArray[m] << " ";
-			}
-			std::cout << "\n";
-		}
 		VecArray.insert(inputItr, b_startItr, b_endItr);
 	}
-	std::cout << "\n----binary insert ----- n_size == " << n_size << std::endl;
-	for (unsigned int k = 0; k < size; k++)
-	{
-		std::cout << VecArray[k] << " ";
-	}
-	std::cout << "\n";
 }
 
 void	PmergeMe::MergeInsert(unsigned int n_size)
@@ -303,12 +276,6 @@ void	PmergeMe::MergeInsert(unsigned int n_size)
 			}
 		}
 	}
-	std::cout << "\n----mergeInsert ----- n_size == " << n_size << std::endl;
-	for (unsigned int k = 0; k < size; k++)
-	{
-		std::cout << VecArray[k] << " ";
-	}
-	std::cout << "\n";
 	if (n_size * 4 < size)
 	{
 		MergeInsert(n_size * 2);
@@ -333,13 +300,14 @@ int	PmergeMe::binarysearchDec(int right, int value, int n_size)
 	while (left <= right)
 	{
 		int mid = (left + (right - left) / 2) * n_size;
-	
 		if (DecArray[mid] < value)
-			left = mid + n_size;
+			left = mid / n_size + 1;
 		else
-			right = mid - n_size;
+			right = mid / n_size - 1;
 	}
-	return left;
+	if (left < 0)
+		return (0);
+	return left * n_size;
 }
 
 void	PmergeMe::InsertSortDec(unsigned int n_size)
@@ -371,14 +339,15 @@ void	PmergeMe::InsertSortDec(unsigned int n_size)
 		pend.insert(b_itr, a_firstitr, a_lastitr);
 		DecArray.erase(a_firstitr, a_lastitr);
 	}
-
+	
 	std::deque<int> jacopIndex = JacobsthalDec(b_cnt);
+
 	for (unsigned int n = 0; n < b_cnt; n++)
 	{
 		int index = (jacopIndex[n] - 1) * n_size;
 		std::deque<int>::iterator maxindex = pend.begin();
 		std::advance(maxindex, index);
-		int find = binarysearchDec(getrange(jacopIndex[n]) - 1, *maxindex, n_size);
+		int find = binarysearchDec(n + jacopIndex[n], *maxindex, n_size);
 		std::deque<int>::iterator inputItr = DecArray.begin();
 		std::advance(inputItr, find);
 		std::deque<int>::iterator b_startItr = pend.begin();
@@ -402,7 +371,7 @@ void	PmergeMe::MergeInsertDec(unsigned int n_size)
 			}
 		}
 	}
-	if (n_size * 4 <= size)
+	if (n_size * 4 < size)
 	{
 		MergeInsertDec(n_size * 2);
 	}

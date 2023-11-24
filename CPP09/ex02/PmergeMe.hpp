@@ -11,6 +11,9 @@
 #include <iomanip>
 #include <sys/time.h>
 
+#define SORT	1
+#define NOT_SORT 0
+
 class	PmergeMe
 {
 	private:
@@ -30,19 +33,20 @@ class	PmergeMe
 	~PmergeMe();
 
 	void					CheckArg(int ac, char **av);
+	bool					Checksort();
 	void					startTime();
 	void					CheckTime();
 	void					VecTime();
 	void					DecTime();
 
-	void					printResult();
+	void					printVec();
+	void					printDec();
 	void					printVecTime();
 	void					printDecTime();
 
 
 	std::vector<int>		Jacobsthal(int num);
 	std::deque<int>			JacobsthalDec(int num);
-	int						getrange(int num);
 	int						Pow(int num);
 
 	void					FordJohnsonVec();

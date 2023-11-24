@@ -9,15 +9,22 @@ int main(int ac, char **av)
 	{
 		mergeme.CheckArg(ac, av);
 		std::cout << "Before:  ";
-		mergeme.printResult();
+		mergeme.printVec();
 		mergeme.CheckTime();
 
 		mergeme.FordJohnsonVec();
 		mergeme.FordJohnsonDec();
+		if (mergeme.Checksort())
+			std::cout << "sorted" << std::endl;
+		else
+			std::cout << "not sorted" << std::endl;
 		std::cout << "After:  ";
-		mergeme.printResult();
+		mergeme.printVec();
+		std::cout << "After:  ";
+		mergeme.printDec();
 		mergeme.printVecTime();
 		mergeme.printDecTime();
+
 	}
 	catch(std::exception& e)
 	{
