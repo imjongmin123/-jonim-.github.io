@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 
-const int ARRAY_SIZE = 31;
+const int ARRAY_SIZE = 1000;
 
 bool isDuplicate(const int arr[], int size, int value) {
     for (int i = 0; i < size; ++i) {
