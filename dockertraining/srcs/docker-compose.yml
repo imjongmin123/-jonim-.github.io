@@ -1,0 +1,44 @@
+version: '2.23'
+
+services:
+   nginx:
+     build:
+	context: ./nginx
+     restart: always
+     ports:
+	- "80:80"
+	- "443:443"
+     networks:
+	- mynetwork
+
+   wordpress:
+     build:
+	context: ./wordpress
+     restart: always
+     volumes:
+	- wordpress-db:/var/lib/mysql
+	- wordpress-files:/var/www/html
+     networks:
+	- mynetwork
+
+   mariadb:
+     build:
+	context: ./mariadb
+     restart: always
+     volumes:
+	- wordpress-db:/var/lib/mysql
+     environment:
+     MYSQL_ROOT_PASSWORD: examplepass
+     MYSQL_DATABASE: exampledb
+     MYSQL_USER: exampleuser
+     MYSQL_PASSWORD: examplepass
+     networks:
+     - mynetwork
+
+networks:
+   mynetwork:
+     driver: bridge
+
+volumes:
+   wordpress-db:
+   wordpress-files:	
