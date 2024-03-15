@@ -4,8 +4,7 @@ RUN apt-get update -y && \
 	apt-get upgrade -y && \
 	apt-get -y install mariadb-server && \
 	apt-get install -y vim && \
-	apt-get install -y dumb-init && \
-	apt-get install -y systemd 
+	apt-get install -y dumb-init
 
 COPY ./tools/start.sh /start.sh
 

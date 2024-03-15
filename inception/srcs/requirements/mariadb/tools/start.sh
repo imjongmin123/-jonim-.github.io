@@ -1,6 +1,10 @@
 #!/bin/bash
 
-service mariadb start
+mysqld_safe --datadir='/var/lib/mysql' &
+until mysqladmin ping --silent; do
+    echo "Waiting for MariaDB server to be available..."
+    sleep 1
+done
 
 mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWORD');"
 mysql -e "DELETE FROM mysql.user WHERE User='';"
@@ -13,6 +17,7 @@ mysql -e "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
 mysql -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';"
 mysql -e "FLUSH PRIVILEGES;"
 
-service mariadb stop
 
-mysqld_safe
+mysqladmin -uroot -p"${MYSQL_ROOT_PASSWORD}" shutdown
+
+exec mysqld_safe --datadir='/var/lib/mysql'
