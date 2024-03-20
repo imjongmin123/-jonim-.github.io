@@ -8,14 +8,19 @@ services:
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
-    env_file: .env
+    env_file:
+      - ./.env
     expose:
       - "3306"
     volumes:
       - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   wordpress:
     container_name: wordpress
-    env_file: .env
     volumes:
       - wordpress_data:/var/www/html
     networks:
@@ -24,10 +29,13 @@ services:
       context: requirements/wordpress
       dockerfile: Dockerfile
     depends_on:
-      - mariadb
+       mariadb:
+        condition: service_healthy
     restart: on-failure
     expose:
       - "9000"
+    env_file:
+      - ./.env
   nginx:
     container_name: nginx
     volumes:
@@ -39,7 +47,8 @@ services:
     build:
       context: requirements/nginx
       dockerfile: Dockerfile
-    env_file: .env
+    env_file:
+      - ./.env
     ports:
       - "443:443"
     restart: on-failure
