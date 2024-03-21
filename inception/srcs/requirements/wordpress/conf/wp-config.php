@@ -18,16 +18,22 @@
  * @package WordPress
  */
 
-define( 'DB_NAME', 'wordpress_db' );
+$servername = getenv($DOMAIN_NAME);
+$dbname = getenv($WORDPRESS_DB_NAME);
+$dbuser = getenv($WORDPRESS_DB_USER);
+$dbpassword = getenv($WORDPRESS_DB_PASSWORD);
+$dbhost = getenv($WORDPRESS_DB_HOST);
+
+define( 'DB_NAME', $dbname);
 
 /** Database username */
-define( 'DB_USER', 'wordpress_user' );
+define( 'DB_USER', $dbuser);
 
 /** Database password */
-define( 'DB_PASSWORD', 'wordpress_password' );
+define( 'DB_PASSWORD', $dbpassword);
 
 /** Database hostname */
-define( 'DB_HOST', 'mariadb' );
+define( 'DB_HOST', $dbhost);
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -35,8 +41,8 @@ define( 'DB_CHARSET', 'utf8' );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
-define('WP_HOME','https://jonim.42.fr');
-define('WP_SITEURL','https://jonim.42.fr');
+define('WP_HOME',$servername);
+define('WP_SITEURL',$servername);
 
 
 define( 'AUTH_KEY',         'put your unique phrase here' );

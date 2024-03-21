@@ -9,8 +9,6 @@ echo "WordPress installed."
 if wp user get ${WORDPRESS_AUTHOR_USER} --path=/var/www/html --allow-root >/dev/null 2>&1; then
   echo "사용자 '${WORDPRESS_AUTHOR_USER}'은(는) 이미 존재합니다."
 else
-    wp user create "${WORDPRESS_AUTHOR_USER}" --user_pass="${WORDPRESS_AUTHOR_PASSWORD}" --role=author --path=/var/www/html --allow-root
-    echo "WordPress setup completed."
+    wp user create "${WORDPRESS_AUTHOR_USER}" "${WORDPRESS_AUTHOR_EMAIL}" --user_pass="${WORDPRESS_AUTHOR_PASSWORD}" --role=author --path=/var/www/html --allow-root
 fi
-# "${WORDPRESS_AUTHOR_EMAIL}"
 exec php-fpm7.4 -F
