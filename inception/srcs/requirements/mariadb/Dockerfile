@@ -13,4 +13,3 @@ RUN chmod +x /start.sh
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/start.sh"]
-CMD ["mysqld_safe"]

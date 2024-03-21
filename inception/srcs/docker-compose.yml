@@ -59,4 +59,14 @@ networks:
 
 volumes:
   mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./mariadb_data
+      o: bind
   wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./wordpress_data
+      o: bind

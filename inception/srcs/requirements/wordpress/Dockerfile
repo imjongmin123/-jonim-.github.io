@@ -2,7 +2,6 @@ FROM  debian:bullseye
 
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y sendmail && \
     apt-get -y install wget php7.4-fpm php-mysql mariadb-client unzip && \
     apt-get install -y dumb-init
 
